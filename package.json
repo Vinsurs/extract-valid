@@ -1,0 +1,40 @@
+{
+  "name": "extract-valid",
+  "version": "1.0.0",
+  "description": "A library for extracting valid fields from object scheme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinsurs/extract-valid.git"
+  },
+  "main": "dist/extract-valid.umd.js",
+  "module": "dist/extract-valid.es.js",
+  "types": "dist/index.d.ts",
+  "unpkg": "dist/extract-valid.umd.js",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/extract-valid.es.js",
+      "require": "./dist/extract-valid.umd.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "vite build && tsc",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "extract",
+    "extract-valid",
+    "object",
+    "scheme"
+  ],
+  "author": "vinsurs <2407232109@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5"
+  }
+}
