@@ -27,6 +27,10 @@ interface ExtractValidOptions {
    * @default true
    */
   respectZero?: boolean;
+  /**
+   * Specify a predicate function to custom pick valid value you want up. This option takes precedence over other preset options.
+   */
+  respect?: (value: unknown) => boolean;
 }
 function isUndefined(value?: unknown): value is undefined {
   return value === undefined;
@@ -56,6 +60,19 @@ export function extractValid<T extends Record<string, any>>(
   );
   return keys.reduce((acc, key) => {
     const value = obj[key];
+    if (typeof options.respect === "function") {
+      const predicate = options.respect(value)
+      if (predicate === true) {
+        if (options.deep && isObject(value)) {
+          // @ts-ignore
+          acc[key] = extractValid(value, options);
+        } else {
+          // @ts-ignore
+          acc[key] = value;
+        }
+        return acc;
+      }
+    }
     if (!options.respectUndefined && isUndefined(value)) {
       return acc;
     }

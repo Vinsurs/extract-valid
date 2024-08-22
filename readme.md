@@ -17,8 +17,6 @@ const result = extractValid({
 }, options)
 console.log(result) // { valid: "valid" }
 
-const queryStr = serialize({ a: 1, b: 2, c: 3 }, { withPrefix: true })
-console.log(queryStr) // '?a=1&b=2&c=3'
 ```
 
 ## License
