@@ -28,7 +28,7 @@ interface ExtractValidOptions {
    */
   respectZero?: boolean;
   /**
-   * Specify a predicate function to custom pick valid value you want up. This option takes precedence over other preset options.
+   * Specify a predicate function to custom pick valid value you want up. Other preset options takes precedence over this option.
    */
   respect?: (value: unknown) => boolean;
 }
@@ -60,19 +60,6 @@ export function extractValid<T extends Record<string, any>>(
   );
   return keys.reduce((acc, key) => {
     const value = obj[key];
-    if (typeof options.respect === "function") {
-      const predicate = options.respect(value)
-      if (predicate === true) {
-        if (options.deep && isObject(value)) {
-          // @ts-ignore
-          acc[key] = extractValid(value, options);
-        } else {
-          // @ts-ignore
-          acc[key] = value;
-        }
-        return acc;
-      }
-    }
     if (!options.respectUndefined && isUndefined(value)) {
       return acc;
     }
@@ -98,6 +85,12 @@ export function extractValid<T extends Record<string, any>>(
     }
     if (!options.respectNaN && Number.isNaN(value)) {
       return acc;
+    }
+    if (typeof options.respect === "function") {
+      const predicate = options.respect(value)
+      if (predicate === false) {
+        return acc;
+      }
     }
     if (options.deep && isObject(value)) {
       // @ts-ignore
